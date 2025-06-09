@@ -3,17 +3,18 @@ const addSoftDeleteHook = require("../utils/softDelete");
 
 const orderSchema = new mongoose.Schema(
   {
-    tableId: {
+    table: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Table",
       required: true,
     },
-    userId: {
+    user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: false,
     },
     userType: { type: String, enum: ["guest", "registered"], default: "guest" },
+    sessionId: {type:String, required: true, select: false},
     items: [
       {
         product: {
