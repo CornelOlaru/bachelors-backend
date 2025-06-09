@@ -60,7 +60,7 @@ exports.UpdateUser = async (req, res) => {
       if ("deleted" in updates) {
         return res
           .status(400)
-          .json({ message: 'Cannor directly update the "deleted" field' });
+          .json({ message: 'Cannot directly update the "deleted" field' });
       }
       const user = await User.findByIdAndUpdate(req.params.id, updates, {
         new: true,
