@@ -6,6 +6,7 @@ exports.createOrder = async (req, res) => {
     const {
       table,
       user,
+      sessionId,
       items,
       status,
       paymentMethod,
@@ -19,6 +20,7 @@ exports.createOrder = async (req, res) => {
       table,
       user,
       userType,
+      sessionId,
       items,
       status,
       paymentMethod,
@@ -30,7 +32,7 @@ exports.createOrder = async (req, res) => {
       orderData.cardDetails = [cardDetails];
     }
     //Basic validation for required fields
-    if (!table || !items || !paymentMethod || !totalPrice) {
+    if (!table || !items || !paymentMethod || !totalPrice || !sessionId) {
       return res.status(400).json({ message: "Missing required fields." });
     }
 
@@ -103,7 +105,7 @@ exports.getOrders = async (req, res) => {
 // Get order by ID
 exports.getOrderById = async (req, res) => {
     try {
-      const order = await Order.findById(req.params.id)
+      const order = await Order.findById(req.params.id).select("+sessionId")
         .populate("user")
         .populate("items.product");
       if (!order) {
