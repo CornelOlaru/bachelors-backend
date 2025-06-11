@@ -1,4 +1,6 @@
 const Order = require("../models/orderModel");
+// const Product = require("../models/productModel");
+
 
 //Create new order
 exports.createOrder = async (req, res) => {
@@ -8,7 +10,6 @@ exports.createOrder = async (req, res) => {
       user,
       sessionId,
       items,
-      status,
       paymentMethod,
       totalPrice,
       cardDetails,
@@ -22,7 +23,6 @@ exports.createOrder = async (req, res) => {
       userType,
       sessionId,
       items,
-      status,
       paymentMethod,
       totalPrice,
       createdAt: new Date(),
@@ -79,7 +79,7 @@ exports.createOrder = async (req, res) => {
 
     res.status(201).json(order);
   } catch (error) {
-    console.error({ message: "The order could not be sent" });
+    console.error({ message: "The order could not be sent",  error });
     res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -97,7 +97,7 @@ exports.getOrders = async (req, res) => {
       .populate("items.product");
     res.json(orders);
   } catch (error) {
-    console.error({ message: "Orders could not be retrieved" });
+    console.error({ message: "Orders could not be retrieved", error });
     res.status(500).json({ message: "Internal server error" });
   }
 };

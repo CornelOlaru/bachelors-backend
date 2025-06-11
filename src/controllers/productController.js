@@ -1,4 +1,4 @@
-const { set } = require("mongoose");
+
 const Product = require("../models/productModel");
 
 //Create new product
@@ -21,6 +21,7 @@ exports.createProduct = async (req, res) => {
     await product.save();
     res.status(201).json(product);
   } catch (error) {
+    console.error(error)
     res.status(500).json({ message: error });
   }
 };
@@ -98,6 +99,9 @@ exports.updateProduct = async (req, res) => {
           "Invalid category, make sure you select one of these: mic-dejun, pranz,cina, desert, bauturi-alcoolice, bauturi-nealcoolice",
       });
     }
+    if (typeof updates.stock !== 'undefined') {
+      updates.available = updates.stock > 0;
+    }  
     const updatedProduct = await Product.findByIdAndUpdate(id, updates, {
       new: true,
       runValidators: true, // This runs mongoose validators once more before the object is saved.
@@ -114,13 +118,13 @@ exports.updateProduct = async (req, res) => {
 
 //Search a product by name, description and/or category
 exports.searchProduct = async (req, res) => {
-    const query = req.query.q;
-    const category = req.query.category;
 
-    if (!query) {
-        return res.status(400).json({message: "Search query is required"})
-    }
-    try {
+  const query = req.query.q;
+  const category = req.query.category;
+  if (!query) {
+    return res.status(400).json({message: "Search query is required"})
+  }
+  try {
      const filter = {
         deleted: false,
         $or: [
@@ -132,6 +136,7 @@ exports.searchProduct = async (req, res) => {
         filter.category = category;
      }
      const products = await Product.find(filter);
+     
      res.json(products);
      //Request example: GET /products/search?q=pizza&category=pranz
     } catch (error) {

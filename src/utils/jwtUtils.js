@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const { secretKey } = require("../config/jwtConfig");
+const { jwtSecret } = require("../config/jwtConfig");
 
 function generateToken(user) {
     
@@ -16,7 +16,7 @@ function generateToken(user) {
         };
         
         
-   return jwt.sign(payload,secretKey, options);
+   return jwt.sign(payload,jwtSecret, options);
 
   } catch (error) {
     console.error("Error signing JWT", error);

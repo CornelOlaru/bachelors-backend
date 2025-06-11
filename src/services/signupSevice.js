@@ -1,4 +1,4 @@
-const User = require("../models/userModels");
+const User = require("../models/userModel");
 const bcrypt = require("bcryptjs");
 const validator = require("validator");
 
@@ -13,7 +13,8 @@ exports.createUser = async (userData) => {
   }
   if (!validator.isEmail(userData.email)) {
     throw Error("Email is not valid!");
-  } else if (!validator.isStrongPassword(userData.password)) {
+  } 
+  else if (!validator.isStrongPassword(userData.password)) {
     throw Error("Password is not valid!");
   }
   const hashedPassword = await bcrypt.hash(password, 10);

@@ -3,7 +3,7 @@ function addSoftDeleteHook(schema) {
   const queryMiddleware = ["find", "findOne", "findById", "findOneAndUpdate"];
   queryMiddleware.forEach((method) => {
     schema.pre(method, function () {
-      this.where({ deleted: true });
+      this.where({ deleted: false });
     });
   });
 }
