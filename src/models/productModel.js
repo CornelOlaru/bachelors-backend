@@ -32,7 +32,7 @@ const productSchema = new mongoose.Schema(
   }
 );
 
-productSchema.pre("save", function () {
+productSchema.pre("save", function (next) {
   this.available = this.stock > 0;
   next();
 });

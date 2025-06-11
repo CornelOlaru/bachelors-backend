@@ -1,4 +1,4 @@
-const dotenv = require('dotenv');
+require('dotenv').config()
 const crypto = require('crypto');
 
 // Use secret key from environment variables or generate a new one if not set

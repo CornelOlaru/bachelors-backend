@@ -6,9 +6,11 @@ exports.createTable = async (req, res) => {
     try {
         const {number} = req.body;
         //Check if table is existing already
-        const existingTable = await Table.find({number});
+        const existingTable = await Table.findOne({number});
+        
         if (existingTable) {
-            return res.status(400).json({message: "This table already exists"});
+         console.log("This is the existing table",existingTable)
+          return res.status(400).json({message: "This table already exists"});
         }
 
         const table = new Table({number});
@@ -28,7 +30,7 @@ exports.createTable = async (req, res) => {
         
         res.status(201).json(table);
     } catch (error) {
-        console.error({message: "Error creating table"});
+        console.error(error);
         res.status(500).json({ message: 'Internal server error' });
     }
 }
