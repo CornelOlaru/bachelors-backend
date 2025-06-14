@@ -3,16 +3,17 @@ const Product = require("../models/productModel");
 
 //Create new product
 exports.createProduct = async (req, res) => {
-  const { name, description, price, category, imageUrl, stock } = req.body;
+  const { name, description, weight, price, category, imageUrl, stock } = req.body;
   try {
     if (!name || !price || !description || !category) {
       return res
         .status(400)
-        .json({ message: "Name, price, description, category are required!" });
+        .json({ message: "Name, price, weight, description, category are required!" });
     }
     const product = new Product({
       name,
       description,
+      weight,
       price,
       category,
       imageUrl,

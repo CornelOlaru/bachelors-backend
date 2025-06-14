@@ -4,7 +4,8 @@ const addSoftDeleteHook = require("../utils/softDelete");
 const productSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
-    description: { type: String },
+    description: { type: String, required: true },
+    weight: {type: Number, required: true},
     price: { type: Number, required: true },
     category: {
       type: String,
