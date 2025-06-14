@@ -9,8 +9,14 @@ router.post('/', orderController.createOrder);
 // Get all orders
 router.get('/',  orderController.getOrders);
 
+//Get order by Search
+router.get('/search', orderController.getOrderBySearch);
+
 // Get order by ID
 router.get('/:id',  orderController.getOrderById);
+
+//Checkout orders
+router.put("/checkout", orderController.checkoutOrders);
 
 // Update order
 router.put('/:id',  orderController.updateOrder);

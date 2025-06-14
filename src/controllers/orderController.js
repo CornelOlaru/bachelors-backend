@@ -32,7 +32,7 @@ exports.createOrder = async (req, res) => {
       orderData.cardDetails = [cardDetails];
     }
     //Basic validation for required fields
-    if (!table || !items || !paymentMethod || !totalPrice || !sessionId) {
+    if (!table || !items || !totalPrice || !sessionId) {
       return res.status(400).json({ message: "Missing required fields." });
     }
 
@@ -102,6 +102,24 @@ exports.getOrders = async (req, res) => {
   }
 };
 
+//Get order by sessionId and tableId
+exports.getOrderBySearch = async (req, res) => {
+  const {table, sessionId} = req.query;
+  const query = {};
+  if (table) query.table = table;
+  if (sessionId) query.sessionId = sessionId;
+  query.status = {$ne: "paid"}
+  try {
+    const orders = await Order.find(query).sort({createdAt: 1})
+        .populate("user")
+        .populate("items.product");
+    res.json({orders})
+  } catch (error) {
+    console.error({message: "Failed to fetch orders", error})
+    res.status(500).json({message: "Error fetching orders"})
+  }
+}
+
 // Get order by ID
 exports.getOrderById = async (req, res) => {
     try {
@@ -160,3 +178,31 @@ exports.updateOrder = async (req, res) => {
     }
   };
 
+//Checkout orders
+exports.checkoutOrders = async (req, res) => {
+  const {table, sessionId, paymentMethod, cardDetails} = req.body;
+  if (!table || !sessionId || !paymentMethod) {
+    return res.status(400).json({message: "Missing table, sessionId or paymentMethod fields"});
+  }
+  
+  try {
+    const filter = {table, sessionId, status: { $ne: "paid"}};
+    const update = {
+      status: "paid",
+      paymentMethod,
+      ...(paymentMethod === "card" && cardDetails ? {cardDetails} : {})
+    }
+    const result = await Order.updateMany(filter, {$set: update});
+     if (result.modifiedCount === 0) {
+      return res.status(404).json({ message: "No unpaid orders found to update" });
+    }
+
+    res.json({
+      message: "Comanda/nota a fost închisă cu succes.",
+      updatedOrders: result.modifiedCount
+    });
+  } catch (error) {
+    console.error("Error at checkoutOrders:", err);
+    res.status(500).json({ message: "Server error at checkout" });
+  }
+}
