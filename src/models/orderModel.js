@@ -14,7 +14,7 @@ const orderSchema = new mongoose.Schema(
       required: false,
     },
     userType: { type: String, enum: ["guest", "registered"], default: "guest" },
-    sessionId: {type:String, required: true, select: false},
+    sessionId: {type:String, required: true},
     items: [
       {
         product: {
