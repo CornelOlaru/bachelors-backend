@@ -7,7 +7,7 @@ exports.createOrder = async (req, res) => {
   try {
     const {
       table,
-      user,
+      userId,
       sessionId,
       items,
       paymentMethod,
@@ -15,11 +15,11 @@ exports.createOrder = async (req, res) => {
       cardDetails,
     } = req.body;
 
-    const userType = user ? "registered" : "guest";
+    const userType = userId ? "registered" : "guest";
 
     const orderData = {
       table,
-      user,
+      userId,
       userType,
       sessionId,
       items,
@@ -111,13 +111,31 @@ exports.getOrderBySearch = async (req, res) => {
   query.status = {$ne: "paid"}
   try {
     const orders = await Order.find(query).sort({createdAt: 1})
-        .populate("user")
+        .populate("userId")
         .populate("items.product");
     res.json({orders})
   } catch (error) {
     console.error({message: "Failed to fetch orders", error})
     res.status(500).json({message: "Error fetching orders"})
   }
+}
+
+//Get order by user 
+exports.getOrderByUser = async (req, res) => {
+  const {userId} = req.query;
+  const query = {}
+  if (userId) query.userId= userId;
+  query.status = {$eq: "paid"}
+  try {
+    const orders = await Order.find(query).sort({createdAt: 1})
+          .populate("userId")
+          .populate("items.product");
+          res.json({orders})
+  } catch (error) {
+     console.error({message: "Failed to fetch paid orders", error})
+    res.status(500).json({message: "Error fetching orders"})
+  }
+  
 }
 
 // Get order by ID

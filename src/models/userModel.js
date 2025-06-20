@@ -6,9 +6,9 @@ const userSchema = new mongoose.Schema(
     lastName: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: {type: String, required: true},
-    phoneNumber: { type: Number, required: false, select: false },
+    phoneNumber: { type: String, required: false },
     role: { type: String, enum: ["client", "admin"], default: "client" },
-    deleted: { type: Boolean, default: false },
+    deleted: { type: Boolean, default: false, select: false },
   },
   {
     timestamps: true,

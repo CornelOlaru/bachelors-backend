@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs");
 const validator = require("validator");
 
 exports.createUser = async (userData) => {
-  const { firstName, lastName, email, password } = userData;
+  const { firstName, lastName, email, password, phoneNumber } = userData;
   const existingUser = await User.findOne({ email }); //Checking if user exists
   if (existingUser) {
     throw new Error("User already exists");
@@ -24,6 +24,7 @@ exports.createUser = async (userData) => {
     lastName,
     email,
     password: hashedPassword,
+    phoneNumber
   });
   const savedUser = await createdUser.save();
   return savedUser;

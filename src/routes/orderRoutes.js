@@ -12,6 +12,9 @@ router.get('/',  orderController.getOrders);
 //Get order by Search
 router.get('/search', orderController.getOrderBySearch);
 
+//Get order by User
+router.get('/search/paid/', orderController.getOrderByUser);
+
 // Get order by ID
 router.get('/:id',  orderController.getOrderById);
 
