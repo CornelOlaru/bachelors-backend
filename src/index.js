@@ -7,19 +7,17 @@ const orderRoutes = require("./routes/orderRoutes");
 const productRoutes = require("./routes/productRoutes");
 const tableRoutes = require("./routes/tableRoutes.js");
 const signupRoutes = require("./routes/signupRoutes");
-const loginRoutes = require("./routes/loginRoutes")
-const bodyParser = require("body-parser");
-
+const loginRoutes = require("./routes/loginRoutes");
+const guestJwtRoutes = require("./routes/guestJwtRoutes.js")
 
 const app = express();
 
 app.use(express.json());
-app.use(bodyParser.json());
 app.use(cors());
 
 
 app.get('/', (req, res) => {
-  res.send('Server is running');
+  res.send('Server is running'); //Greeting message
 });
 
 
@@ -35,12 +33,13 @@ app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
   
-//API ROUTES
+//API Routes
 
 app.use('/api/users', userRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/products', productRoutes);
 app.use("/api/tables", tableRoutes);
+app.use("/api/guestSession", guestJwtRoutes);
 app.use("/user", signupRoutes);
 app.use("/auth", loginRoutes);
 

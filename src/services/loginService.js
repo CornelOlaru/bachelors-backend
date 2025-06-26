@@ -10,7 +10,8 @@ exports.login = async (email, password) =>  {
     if (!existingUser) {
       throw new Error("User not found");
     }
-    const isPasswordValid = await bcrypt.compare(password, existingUser.password); //Comparing input password with db password
+    //Comparing input password with db password
+    const isPasswordValid = await bcrypt.compare(password, existingUser.password); 
     if (!isPasswordValid) {
       throw new Error("Incorrect password");
     }
@@ -25,6 +26,8 @@ exports.login = async (email, password) =>  {
     throw new Error("Invalid Credetials");
   }
 }
+
+
 exports.refreshToken = async (oldToken) => {
   try {
 //Check if the old token is valid

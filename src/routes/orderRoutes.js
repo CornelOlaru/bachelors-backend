@@ -1,6 +1,7 @@
 const express = require('express');
 const orderController = require('../controllers/orderController');
-//const authMiddleware = require('../utils/authMiddleware');
+const{  AuthenticateToken } = require('../utils/authMiddleware.js');
+
 const router = express.Router();
 
 // Create order

@@ -1,6 +1,6 @@
 const express = require('express');
 const productController = require('../controllers/productController.js');
-const  AuthenticateToken  = require('../utils/authMiddleware.js');
+const{  AuthenticateToken } = require('../utils/authMiddleware.js');
 const router = express.Router();
 
 // Create product

@@ -2,11 +2,11 @@ require("dotenv").config();
 
 const mongoose = require("mongoose");
 
-// Suprimă avertizarea deprecației strictQuery
+// Suppress the strictQuery deprecation warning and ensure 
+// that only fields defined in the schema are allowed in query filters
 mongoose.set('strictQuery', true);
 
 const dbURL = process.env.DB_URL;
-//console.log('DB_URL:', dbURL); // Verifică dacă DB_URL este definită
 
 const connectDB = async () => {
     if (!dbURL) {
