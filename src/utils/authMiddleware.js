@@ -27,7 +27,7 @@ function AuthenticateToken(req, res, next) {
 
 function verifyToken(token) {
     try {
-        return jwt,verify(token, jwtSecret); //Use jwtSecret from config
+        return jwt.verify(token, jwtSecret); //Use jwtSecret from config
     } catch (error) {
         console.log(error.message);
         throw new Error("Invalid token");
@@ -47,4 +47,8 @@ function checkRole(role) {
 
     next(); // User has the required role, proceed to the next middleware or route handler
   };
+}
+
+module.exports = {
+  AuthenticateToken
 }
